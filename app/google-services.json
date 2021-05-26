@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "521088326264",
+    "project_id": "lokamotor-40d84",
+    "storage_bucket": "lokamotor-40d84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521088326264:android:a9579ee98e0fe9d2f6ab8d",
+        "android_client_info": {
+          "package_name": "com.tapisdev.lokamotor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521088326264-q922p87fe8mqiaik9s8lsotc5j4b7r4e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tapisdev.lokamotor",
+            "certificate_hash": "10a6740e6a410954f4d3983063fd02a71175ae62"
+          }
+        },
+        {
+          "client_id": "521088326264-n1e5rjkgopblutvpp48fbpm1p68bpepk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd6yBSIOY6yDI8vW4bigTwL4En1ILbglY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521088326264-n1e5rjkgopblutvpp48fbpm1p68bpepk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
