@@ -53,6 +53,7 @@ class SplashActivity : BaseActivity() {
                                     /*val i = Intent(applicationContext,HomeAdminActivity::class.java)
                                     startActivity(i)*/
                                     showInfoMessage("masih on progres")
+
                                 }else if(mUserPref.getJenisUser().equals("pengguna")){
                                     val i = Intent(applicationContext, HomePenggunaActivity::class.java)
                                     startActivity(i)
