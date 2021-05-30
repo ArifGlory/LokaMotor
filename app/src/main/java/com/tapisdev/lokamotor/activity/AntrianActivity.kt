@@ -1,17 +1,24 @@
 package com.tapisdev.lokamotor.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.Query
+import com.tapisdev.lokamotor.MainActivity
 import com.tapisdev.lokamotor.R
+import com.tapisdev.lokamotor.activity.pengguna.MendaftarAntrianActivity
 import com.tapisdev.lokamotor.adapter.AdapterAntrian
 import com.tapisdev.lokamotor.base.BaseActivity
 import com.tapisdev.lokamotor.model.Antrian
 import com.tapisdev.lokamotor.model.UserPreference
 import kotlinx.android.synthetic.main.activity_antrian.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AntrianActivity : BaseActivity() {
 
@@ -34,14 +41,20 @@ class AntrianActivity : BaseActivity() {
             onBackPressed()
         }
         btnCreate.setOnClickListener {
-
+            val i = Intent(applicationContext, MendaftarAntrianActivity::class.java)
+            startActivity(i)
         }
 
         getDataAntrian()
     }
 
     fun getDataAntrian(){
-        steamRef.get().addOnSuccessListener { result ->
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val currentDate = sdf.format(Date())
+
+        antrianRef.whereEqualTo("tanggal",currentDate.toString())
+            .orderBy("nomor_antrian",Query.Direction.ASCENDING)
+            .get().addOnSuccessListener { result ->
             listAntrian.clear()
             //Log.d(TAG_GET_Sparepart," datanya "+result.documents)
             for (document in result){
@@ -67,5 +80,10 @@ class AntrianActivity : BaseActivity() {
             showErrorMessage("terjadi kesalahan : "+exception.message)
             Log.d(TAG_GET_ANTRIAN,"err : "+exception.message)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getDataAntrian()
     }
 }
