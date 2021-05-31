@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,9 +24,11 @@ import kotlin.collections.ArrayList
 class AntrianActivity : BaseActivity() {
 
     var TAG_GET_ANTRIAN = "getAntrian"
+    var TAG_GET_ANTRIAN_AKTIF = "getAntrianAktif"
     lateinit var adapter: AdapterAntrian
 
     var listAntrian = ArrayList<Antrian>()
+    var listAntrianAktif = ArrayList<Antrian>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,8 +85,39 @@ class AntrianActivity : BaseActivity() {
         }
     }
 
+    fun getDataCurrentAntrian(){
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val currentDate = sdf.format(Date())
+
+        antrianRef.whereEqualTo("tanggal",currentDate.toString())
+            .get().addOnSuccessListener { result ->
+                //Log.d(TAG_GET_Sparepart," datanya "+result.documents)
+                listAntrianAktif.clear()
+                for (document in result){
+                    //Log.d(TAG_GET_Sparepart, "Datanya : "+document.data)
+                    var antrian : Antrian = document.toObject(Antrian::class.java)
+                    antrian.id_antrian = document.id
+
+                    if (antrian.status.equals("aktif")){
+                        listAntrianAktif.add(antrian)
+                    }
+
+                }
+                if (listAntrianAktif.size == 0){
+                    currentQueue.setText("---")
+                }else{
+                    currentQueue.setText(""+listAntrianAktif.get(0).nomor_antrian)
+                }
+
+            }.addOnFailureListener { exception ->
+                showErrorMessage("terjadi kesalahan currentQueue : "+exception.message)
+                Log.d(TAG_GET_ANTRIAN_AKTIF,"err : "+exception.message)
+            }
+    }
+
     override fun onResume() {
         super.onResume()
         getDataAntrian()
+        getDataCurrentAntrian()
     }
 }

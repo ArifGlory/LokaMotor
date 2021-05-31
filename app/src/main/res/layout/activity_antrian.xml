@@ -4,14 +4,22 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorBg"
     android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="@color/colorAccent"
         android:layout_height="?actionBarSize"
         android:id="@+id/rlToolBar">
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,15 +44,64 @@
            android:layout_centerVertical="true"
            android:layout_alignParentLeft="true"/>
 
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/btnCreate"
+            android:tint="@color/white"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_add_box_black_24dp"
+            android:layout_alignParentRight="true"/>
+
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/rlCurrentQueue"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/rlToolBar"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_below="@+id/tvInfo"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/cicle_shape"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/tvInfo"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="127sp"
+            android:id="@+id/currentQueue"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/mark_web_w04_black"
+            android:text="~"
+            tools:ignore="MissingPrefix" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="italic"
+            android:id="@+id/tvInfo"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Antrian Sekarang"
+            tools:ignore="MissingPrefix" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:paddingHorizontal="10dp"
-        android:layout_below="@+id/rlToolBar"
-        android:layout_above="@+id/btnCreate"
+        android:layout_below="@+id/rlCurrentQueue"
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -69,20 +126,7 @@
 
     </RelativeLayout>
 
-    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-        android:id="@+id/btnCreate"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        style="@style/loginButton"
-        app:spinning_bar_width="4dp"
-        app:spinning_bar_color="#FFF"
-        android:text="Mendaftar Antrian"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/loginViewsMargin"
-        app:initialCornerAngle="27dp"
-        app:spinning_bar_padding="6dp"/>
-
-
+    </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>
