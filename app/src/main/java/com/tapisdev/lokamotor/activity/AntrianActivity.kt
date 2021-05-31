@@ -48,7 +48,14 @@ class AntrianActivity : BaseActivity() {
             startActivity(i)
         }
 
+        updateUI()
         getDataAntrian()
+    }
+
+    fun updateUI(){
+        if (mUserPref.getJenisUser().equals("admin")){
+            btnCreate.visibility = View.INVISIBLE
+        }
     }
 
     fun getDataAntrian(){
@@ -104,7 +111,7 @@ class AntrianActivity : BaseActivity() {
 
                 }
                 if (listAntrianAktif.size == 0){
-                    currentQueue.setText("---")
+                    currentQueue.setText("--")
                 }else{
                     currentQueue.setText(""+listAntrianAktif.get(0).nomor_antrian)
                 }

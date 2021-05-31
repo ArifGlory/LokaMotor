@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.opengl.GLDebugHelper
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,8 +17,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.tapisdev.lokamotor.R
 import com.tapisdev.lokamotor.model.Antrian
 import com.tapisdev.lokamotor.model.UserPreference
@@ -39,11 +42,18 @@ class AdapterAntrian(private val list:ArrayList<Antrian>) : RecyclerView.Adapter
     override fun getItemCount(): Int = list?.size
     lateinit var mUserPref : UserPreference
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val myDB = FirebaseFirestore.getInstance()
+    val antrianRef = myDB.collection("antrian")
+    lateinit var pDialogLoading : SweetAlertDialog
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
         val nf = NumberFormat.getNumberInstance(Locale.GERMAN)
         val df = nf as DecimalFormat
+        pDialogLoading = SweetAlertDialog(holder.view.tvNamaUser.context, SweetAlertDialog.PROGRESS_TYPE)
+        pDialogLoading.progressHelper.barColor = Color.parseColor("#A5DC86")
+        pDialogLoading.setTitleText("Loading..")
+        pDialogLoading.setCancelable(false)
 
         holder.view.tvNamaUser.text = list?.get(position)?.nama_user
         holder.view.tvJenisLayanan.text =list?.get(position)?.jenis_layanan
@@ -65,10 +75,24 @@ class AdapterAntrian(private val list:ArrayList<Antrian>) : RecyclerView.Adapter
 
         holder.view.lineAntrian.setOnClickListener {
             Log.d("adapterIsi",""+list.get(position).toString())
-            /*val i = Intent(holder.view.lineAntrian.context, DetailSteamActivity::class.java)
-            i.putExtra("steam",list.get(position) as Serializable)
-            holder.view.lineAntrian.context.startActivity(i)*/
+
+            SweetAlertDialog(holder.view.lineAntrian.context, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Aktifkan antrian ini ?")
+                .setContentText("Data yang sudah dihapus tidak bisa dikembalikan")
+                .setConfirmText("Ya")
+                .setConfirmClickListener { sDialog ->
+                    sDialog.dismissWithAnimation()
+                    pDialogLoading.show()
+
+                }
+                .setCancelButton(
+                    "Tidak"
+                ) { sDialog -> sDialog.dismissWithAnimation() }
+                .show()
         }
+
+
+
 
     }
 

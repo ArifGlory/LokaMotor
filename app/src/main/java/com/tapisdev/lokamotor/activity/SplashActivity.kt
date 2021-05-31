@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import com.tapisdev.lokamotor.MainActivity
 import com.tapisdev.lokamotor.R
+import com.tapisdev.lokamotor.activity.admin.HomeAdminActivity
 import com.tapisdev.lokamotor.activity.pengguna.HomePenggunaActivity
 import com.tapisdev.lokamotor.base.BaseActivity
 import com.tapisdev.lokamotor.model.UserPreference
@@ -50,10 +51,8 @@ class SplashActivity : BaseActivity() {
                             Log.d("userpref"," jenis user : "+mUserPref.getJenisUser())
                             if (mUserPref.getJenisUser() != null){
                                 if (mUserPref.getJenisUser().equals("admin")){
-                                    /*val i = Intent(applicationContext,HomeAdminActivity::class.java)
-                                    startActivity(i)*/
-                                    showInfoMessage("masih on progres")
-
+                                    val i = Intent(applicationContext, HomeAdminActivity::class.java)
+                                    startActivity(i)
                                 }else if(mUserPref.getJenisUser().equals("pengguna")){
                                     val i = Intent(applicationContext, HomePenggunaActivity::class.java)
                                     startActivity(i)
