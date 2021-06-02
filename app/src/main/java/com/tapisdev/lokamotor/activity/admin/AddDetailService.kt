@@ -49,7 +49,7 @@ class AddDetailService : BaseActivity() {
         if (getHarga.equals("") || getHarga.length == 0){
             showErrorMessage("Total Harga Belum diisi")
         }else if (getDeksirpsi.equals("") || getDeksirpsi.length == 0){
-            showErrorMessage("Komentar/Deksirpsi Belum diisi")
+            showErrorMessage("Komentar/Dekskripsi Belum diisi")
         }else{
             riwayatService = RiwayatService("",
                 antrian.id_antrian,
