@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.Query
 import com.tapisdev.lokamotor.R
 import com.tapisdev.lokamotor.activity.AntrianActivity
+import com.tapisdev.lokamotor.activity.RiwayatServiceActivity
 import com.tapisdev.lokamotor.activity.pengguna.ProfilActivity
 import com.tapisdev.lokamotor.adapter.AdapterAntrian
 import com.tapisdev.lokamotor.base.BaseActivity
@@ -43,6 +44,10 @@ class HomeAdminActivity : BaseActivity() {
         }
         lineAntrian.setOnClickListener {
             startActivity(Intent(this, AntrianActivity::class.java))
+            overridePendingTransition(R.anim.slide_in_right, R.anim.stay)
+        }
+        lineRiwayat.setOnClickListener {
+            startActivity(Intent(this, RiwayatServiceActivity::class.java))
             overridePendingTransition(R.anim.slide_in_right, R.anim.stay)
         }
 
