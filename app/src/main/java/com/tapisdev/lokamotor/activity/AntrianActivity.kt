@@ -6,17 +6,21 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.firebase.firestore.Query
 import com.tapisdev.lokamotor.MainActivity
 import com.tapisdev.lokamotor.R
+import com.tapisdev.lokamotor.activity.admin.AddDetailService
 import com.tapisdev.lokamotor.activity.pengguna.MendaftarAntrianActivity
 import com.tapisdev.lokamotor.adapter.AdapterAntrian
 import com.tapisdev.lokamotor.base.BaseActivity
 import com.tapisdev.lokamotor.model.Antrian
 import com.tapisdev.lokamotor.model.UserPreference
 import kotlinx.android.synthetic.main.activity_antrian.*
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -46,6 +50,28 @@ class AntrianActivity : BaseActivity() {
         btnCreate.setOnClickListener {
             val i = Intent(applicationContext, MendaftarAntrianActivity::class.java)
             startActivity(i)
+        }
+        ivCurrentQueue.setOnClickListener {
+            if (mUserPref.getJenisUser().equals("admin")){
+                if(listAntrianAktif.size > 0){
+                    SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Selesaikan Antrian Ini ?")
+                        .setContentText("Antrian diselesaikan, dan input detail Service")
+                        .setConfirmText("Ya")
+                        .setConfirmClickListener { sDialog ->
+                            sDialog.dismissWithAnimation()
+
+                            val i = Intent(this,AddDetailService::class.java)
+                            i.putExtra("antrian",listAntrianAktif.get(0) as Serializable)
+                            startActivity(i)
+
+                        }
+                        .setCancelButton(
+                            "Tidak"
+                        ) { sDialog -> sDialog.dismissWithAnimation() }
+                        .show()
+                }
+            }
         }
 
         updateUI()

@@ -85,4 +85,9 @@ class HomeAdminActivity : BaseActivity() {
                 Log.d(TAG_GET_ANTRIAN,"err : "+exception.message)
             }
     }
+
+    override fun onResume() {
+        super.onResume()
+        getDataAntrian()
+    }
 }
