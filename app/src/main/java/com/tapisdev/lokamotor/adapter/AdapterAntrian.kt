@@ -15,6 +15,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -22,6 +23,8 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tapisdev.lokamotor.R
+import com.tapisdev.lokamotor.activity.AntrianActivity
+import com.tapisdev.lokamotor.activity.SplashActivity
 import com.tapisdev.lokamotor.model.Antrian
 import com.tapisdev.lokamotor.model.UserPreference
 import com.tapisdev.mysteam.model.UserModel
@@ -47,6 +50,7 @@ class AdapterAntrian(private val list:ArrayList<Antrian>) : RecyclerView.Adapter
     lateinit var pDialogLoading : SweetAlertDialog
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        mUserPref = UserPreference(holder.view.lineAntrian.context)
 
         val nf = NumberFormat.getNumberInstance(Locale.GERMAN)
         val df = nf as DecimalFormat
@@ -73,22 +77,47 @@ class AdapterAntrian(private val list:ArrayList<Antrian>) : RecyclerView.Adapter
         }
 
 
-        holder.view.lineAntrian.setOnClickListener {
+        holder.view.lineAntrian.setOnLongClickListener {
             Log.d("adapterIsi",""+list.get(position).toString())
 
-            SweetAlertDialog(holder.view.lineAntrian.context, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Aktifkan antrian ini ?")
-                .setContentText("Data yang sudah dihapus tidak bisa dikembalikan")
-                .setConfirmText("Ya")
-                .setConfirmClickListener { sDialog ->
-                    sDialog.dismissWithAnimation()
-                    pDialogLoading.show()
+            if (mUserPref.getJenisUser().equals("admin")){
+                if (position != 0){
+                    Toasty.error(holder.view.lineAntrian.context, "Antrian ini tidak berada pada posisi pertama", Toast.LENGTH_SHORT, true).show()
+                }else{
+                    if (list?.get(position)?.status.equals("waiting")){
+                        SweetAlertDialog(holder.view.lineAntrian.context, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("Aktifkan antrian ini ?")
+                            .setContentText("Antrian akan dimulai")
+                            .setConfirmText("Ya")
+                            .setConfirmClickListener { sDialog ->
+                                sDialog.dismissWithAnimation()
+                                pDialogLoading.show()
 
+                                antrianRef.document(list?.get(position)?.id_antrian).update("status","aktif").addOnCompleteListener { task ->
+                                    pDialogLoading.dismiss()
+                                    if (task.isSuccessful){
+                                        Toasty.success(holder.view.lineAntrian.context, "Antrian Aktif", Toast.LENGTH_SHORT, true).show()
+                                        val i = Intent(holder.view.lineAntrian.context,AntrianActivity::class.java)
+                                        holder.view.lineAntrian.context.startActivity(i)
+                                    }else{
+                                        Toasty.error(holder.view.lineAntrian.context, "terjadi kesalahan : "+task.exception, Toast.LENGTH_SHORT, true).show()
+                                        Log.d("aktivasiAntrian","err : "+task.exception)
+                                    }
+                                }
+
+                            }
+                            .setCancelButton(
+                                "Tidak"
+                            ) { sDialog -> sDialog.dismissWithAnimation() }
+                            .show()
+                    }
                 }
-                .setCancelButton(
-                    "Tidak"
-                ) { sDialog -> sDialog.dismissWithAnimation() }
-                .show()
+
+            }
+
+
+
+            true
         }
 
 

@@ -74,6 +74,7 @@ class HomeAdminActivity : BaseActivity() {
                     animation_view_antrian.playAnimation()
                     animation_view_antrian.loop(false)*/
                     tvNoAntrian.visibility = View.VISIBLE
+                    av_antrian.visibility = View.INVISIBLE
                 }else{
                     av_antrian.visibility = View.INVISIBLE
                 }
