@@ -50,6 +50,10 @@ class HomeAdminActivity : BaseActivity() {
             startActivity(Intent(this, RiwayatServiceActivity::class.java))
             overridePendingTransition(R.anim.slide_in_right, R.anim.stay)
         }
+        lineLayanan.setOnClickListener {
+            startActivity(Intent(this, ListServiceActivity::class.java))
+            overridePendingTransition(R.anim.slide_in_right, R.anim.stay)
+        }
 
         getDataAntrian()
     }

@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Project/AndroidProjects/LokaMotor/app/src/main/res/layout/activity_add_service.xml" value="0.36666666666666664" />
+        <entry key="..\:/Project/AndroidProjects/LokaMotor/app/src/main/res/layout/activity_antrian.xml" value="0.328804347826087" />
+        <entry key="..\:/Project/AndroidProjects/LokaMotor/app/src/main/res/layout/activity_home_admin.xml" value="0.328804347826087" />
+        <entry key="..\:/Project/AndroidProjects/LokaMotor/app/src/main/res/layout/activity_home_pengguna.xml" value="0.328804347826087" />
+        <entry key="..\:/Project/AndroidProjects/LokaMotor/app/src/main/res/layout/activity_list_service.xml" value="0.36666666666666664" />
+        <entry key="..\:/Project/AndroidProjects/LokaMotor/app/src/main/res/layout/activity_mendaftar_antrian.xml" value="0.328804347826087" />
+        <entry key="..\:/Project/AndroidProjects/LokaMotor/app/src/main/res/layout/activity_riwayat_service.xml" value="0.328804347826087" />
+        <entry key="..\:/Project/AndroidProjects/LokaMotor/app/src/main/res/layout/row_antrian.xml" value="0.328804347826087" />
+        <entry key="..\:/Project/AndroidProjects/LokaMotor/app/src/main/res/layout/row_layanan.xml" value="0.36666666666666664" />
+        <entry key="..\:/Project/AndroidProjects/LokaMotor/app/src/main/res/layout/row_riwayat.xml" value="0.328804347826087" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

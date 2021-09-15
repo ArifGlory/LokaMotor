@@ -17,8 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".activity.RiwayatServiceActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.admin.ListServiceActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true" />
+        <activity
+            android:name=".activity.admin.AddServiceActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.RiwayatServiceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.admin.AddDetailService"
             android:theme="@style/AppTheme.NoActionBar" />

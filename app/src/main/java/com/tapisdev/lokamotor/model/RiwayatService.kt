@@ -2,9 +2,8 @@ package com.tapisdev.lokamotor.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import kotlinx.serialization.Serializable
 
-@Serializable
+
 @Parcelize
 data class RiwayatService(
     var id_riwayat : String = "",
