@@ -50,6 +50,7 @@ class AdapterLayanan(private val list:ArrayList<Layanan>) : RecyclerView.Adapter
     val myDB = FirebaseFirestore.getInstance()
     val layananRef = myDB.collection("layanan")
     lateinit var pDialogLoading : SweetAlertDialog
+    var listLayananDipilih = ArrayList<Layanan>()
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         mUserPref = UserPreference(holder.view.lineLayanan.context)
@@ -64,39 +65,59 @@ class AdapterLayanan(private val list:ArrayList<Layanan>) : RecyclerView.Adapter
 
         holder.view.tvNamaLayanan.text = list?.get(position)?.nama_layanan
         holder.view.tvHargaLayanan.text = "Rp. "+df.format(list?.get(position)?.harga_layanan)
+        if (mUserPref.getJenisUser().equals("admin")){
+            holder.view.cbLayanan.visibility = View.INVISIBLE
+        }
 
         holder.view.lineLayanan.setOnLongClickListener {
 
-            SweetAlertDialog(holder.view.lineLayanan.context, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Anda yakin menghapus ini ?")
-                .setContentText("Data yang sudah dihapus tidak bisa dikembalikan")
-                .setConfirmText("Ya")
-                .setConfirmClickListener { sDialog ->
-                    sDialog.dismissWithAnimation()
-                    pDialogLoading.show()
-                    layananRef.document(list?.get(position)?.id_layanan).update("active",0).addOnSuccessListener {
-                        pDialogLoading.dismiss()
-                        Toasty.success(holder.view.lineLayanan.context, "Data berhasil dihapus", Toast.LENGTH_LONG, true).show()
+            if (mUserPref.getJenisUser().equals("admin")){
+                SweetAlertDialog(holder.view.lineLayanan.context, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Anda yakin menghapus ini ?")
+                    .setContentText("Data yang sudah dihapus tidak bisa dikembalikan")
+                    .setConfirmText("Ya")
+                    .setConfirmClickListener { sDialog ->
+                        sDialog.dismissWithAnimation()
+                        pDialogLoading.show()
+                        layananRef.document(list?.get(position)?.id_layanan).update("active",0).addOnSuccessListener {
+                            pDialogLoading.dismiss()
+                            Toasty.success(holder.view.lineLayanan.context, "Data berhasil dihapus", Toast.LENGTH_LONG, true).show()
 
-                        if (holder.view.lineLayanan.context is ListServiceActivity){
-                            (holder.view.lineLayanan.context as ListServiceActivity).getDataLayanan()
+                            if (holder.view.lineLayanan.context is ListServiceActivity){
+                                (holder.view.lineLayanan.context as ListServiceActivity).getDataLayanan()
+                            }
+
+                            Log.d("deleteDoc", "DocumentSnapshot successfully deleted!")
+                        }.addOnFailureListener {
+                                e ->
+                            pDialogLoading.dismiss()
+                            Toasty.error(holder.view.lineLayanan.context, "terjadi kesalahan "+e, Toast.LENGTH_LONG, true).show()
+                            Log.w("deleteDoc", "Error deleting document", e)
                         }
 
-                        Log.d("deleteDoc", "DocumentSnapshot successfully deleted!")
-                    }.addOnFailureListener {
-                            e ->
-                        pDialogLoading.dismiss()
-                        Toasty.error(holder.view.lineLayanan.context, "terjadi kesalahan "+e, Toast.LENGTH_LONG, true).show()
-                        Log.w("deleteDoc", "Error deleting document", e)
                     }
-
-                }
-                .setCancelButton(
-                    "Tidak"
-                ) { sDialog -> sDialog.dismissWithAnimation() }
-                .show()
+                    .setCancelButton(
+                        "Tidak"
+                    ) { sDialog -> sDialog.dismissWithAnimation() }
+                    .show()
+            }
 
             return@setOnLongClickListener true
+        }
+        holder.view.cbLayanan.setOnCheckedChangeListener { compoundButton, b ->
+            Log.d("layanan"," checkbox : "+b)
+            var layanan  = list?.get(position)
+
+            if (b){
+                if (holder.view.lineLayanan.context is ListServiceActivity){
+                    (holder.view.lineLayanan.context as ListServiceActivity).addLayanan(layanan)
+                }
+            }else{
+                if (holder.view.lineLayanan.context is ListServiceActivity){
+                    (holder.view.lineLayanan.context as ListServiceActivity).removeLayanan(layanan)
+                }
+            }
+
         }
 
 

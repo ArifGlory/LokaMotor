@@ -14,6 +14,7 @@ import com.google.firebase.firestore.Query
 import com.tapisdev.lokamotor.MainActivity
 import com.tapisdev.lokamotor.R
 import com.tapisdev.lokamotor.activity.admin.AddDetailService
+import com.tapisdev.lokamotor.activity.admin.ListServiceActivity
 import com.tapisdev.lokamotor.activity.pengguna.MendaftarAntrianActivity
 import com.tapisdev.lokamotor.adapter.AdapterAntrian
 import com.tapisdev.lokamotor.base.BaseActivity
@@ -48,8 +49,8 @@ class AntrianActivity : BaseActivity() {
             onBackPressed()
         }
         btnCreate.setOnClickListener {
-            val i = Intent(applicationContext, MendaftarAntrianActivity::class.java)
-            startActivity(i)
+            startActivity(Intent(this, ListServiceActivity::class.java))
+            overridePendingTransition(R.anim.slide_in_right, R.anim.stay)
         }
         ivCurrentQueue.setOnClickListener {
             if (mUserPref.getJenisUser().equals("admin")){

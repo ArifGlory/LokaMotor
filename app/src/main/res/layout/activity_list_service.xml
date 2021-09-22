@@ -89,4 +89,19 @@
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+        android:id="@+id/btnKonfirmasiLayanan"
+        style="@style/loginButton"
+        app:spinning_bar_width="4dp"
+        app:spinning_bar_color="#FFF"
+        android:text="Pilih Layanan ini"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="@dimen/loginViewsMargin"
+        app:initialCornerAngle="27dp"
+        app:spinning_bar_padding="6dp"/>
+
 </RelativeLayout>

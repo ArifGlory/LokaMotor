@@ -20,9 +20,11 @@ import kotlinx.android.synthetic.main.activity_riwayat_service.*
 class ListServiceActivity : BaseActivity() {
 
     var TAG_GET_LAYANAN = "getLayanan"
+    var SELECT_LAYANAN = "selectedLayanan"
     lateinit var adapter: AdapterLayanan
 
     var listLayanan = ArrayList<Layanan>()
+    var listLayananDipilih = ArrayList<Layanan>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +42,54 @@ class ListServiceActivity : BaseActivity() {
             startActivity(Intent(this, AddServiceActivity::class.java))
             overridePendingTransition(R.anim.slide_in_right, R.anim.stay)
         }
+        btnKonfirmasiLayanan.setOnClickListener {
+
+            if (listLayananDipilih.size == 0){
+                showErrorMessage("Anda belum memilih layanan")
+            }else{
+                listLayananDipilih.sortBy { layanan : Layanan -> layanan.id_layanan }
+                Log.d(SELECT_LAYANAN,"sorted list layanan dipilih :  "+listLayananDipilih.toString())
+            }
+        }
 
         getDataLayanan()
+        updateUI()
+    }
+
+    fun updateUI(){
+        if (!mUserPref.getJenisUser().equals("admin")){
+            btnCreateLayanan.visibility = View.GONE
+        }
     }
 
     fun getDataLayanan(){
 
         if (mUserPref.getJenisUser().equals("pengguna")){
+            layananRef.whereEqualTo("active",1)
+                .get().addOnSuccessListener { result ->
+                    listLayanan.clear()
+                    //Log.d(TAG_GET_Sparepart," datanya "+result.documents)
+                    for (document in result){
+                        //Log.d(TAG_GET_Sparepart, "Datanya : "+document.data)
+                        var layanan : Layanan = document.toObject(Layanan::class.java)
+                        layanan.id_layanan = document.id
 
+                        listLayanan.add(layanan)
+
+                    }
+                    if (listLayanan.size == 0){
+                        animation_view_layanan.setAnimation(R.raw.empty_box)
+                        animation_view_layanan.playAnimation()
+                        animation_view_layanan.loop(false)
+                    }else{
+                        animation_view_layanan.visibility = View.INVISIBLE
+                    }
+                    adapter.notifyDataSetChanged()
+
+                }.addOnFailureListener { exception ->
+                    showErrorMessage("terjadi kesalahan : "+exception.message)
+                    Log.d(TAG_GET_LAYANAN,"err : "+exception.message)
+                }
         }else{
             layananRef.whereEqualTo("active",1)
                 .get().addOnSuccessListener { result ->
@@ -76,6 +118,20 @@ class ListServiceActivity : BaseActivity() {
             }
         }
 
+    }
+
+    fun addLayanan(layanan : Layanan){
+        listLayananDipilih.add(layanan)
+        Log.d(SELECT_LAYANAN,"isi list layanan dipilih :  "+listLayananDipilih.toString())
+    }
+
+    fun removeLayanan(layanan: Layanan){
+        listLayananDipilih.remove(layanan)
+        if (listLayananDipilih.size > 0){
+            listLayananDipilih.sortBy { layanan : Layanan -> layanan.id_layanan }
+        }
+
+        Log.d(SELECT_LAYANAN,"isi list layanan dipilih :  "+listLayananDipilih.toString())
     }
 
     override fun onResume() {
