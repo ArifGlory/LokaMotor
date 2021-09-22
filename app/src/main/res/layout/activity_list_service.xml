@@ -89,19 +89,32 @@
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mark_web_w04_black"
+        android:text="Total : Rp. "
+        android:layout_marginLeft="20dp"
+        android:id="@+id/tvTotal"
+        android:layout_above="@+id/btnKonfirmasiLayanan"
+        android:textColor="@color/black"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        tools:ignore="MissingPrefix" />
+
     <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
         android:id="@+id/btnKonfirmasiLayanan"
         style="@style/loginButton"
-        app:spinning_bar_width="4dp"
-        app:spinning_bar_color="#FFF"
-        android:text="Pilih Layanan ini"
+        android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="@dimen/loginViewsMargin"
+        android:layout_marginBottom="10dp"
+        android:text="Konfirmasi Pemesanan Layanan"
         app:initialCornerAngle="27dp"
-        app:spinning_bar_padding="6dp"/>
+        app:spinning_bar_color="#FFF"
+        app:spinning_bar_padding="6dp"
+        app:spinning_bar_width="4dp" />
 
 </RelativeLayout>

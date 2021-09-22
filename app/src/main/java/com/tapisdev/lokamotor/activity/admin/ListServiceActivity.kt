@@ -16,6 +16,10 @@ import com.tapisdev.lokamotor.model.RiwayatService
 import com.tapisdev.lokamotor.model.UserPreference
 import kotlinx.android.synthetic.main.activity_list_service.*
 import kotlinx.android.synthetic.main.activity_riwayat_service.*
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ListServiceActivity : BaseActivity() {
 
@@ -122,6 +126,8 @@ class ListServiceActivity : BaseActivity() {
 
     fun addLayanan(layanan : Layanan){
         listLayananDipilih.add(layanan)
+        countHargaTotal()
+
         Log.d(SELECT_LAYANAN,"isi list layanan dipilih :  "+listLayananDipilih.toString())
     }
 
@@ -131,7 +137,19 @@ class ListServiceActivity : BaseActivity() {
             listLayananDipilih.sortBy { layanan : Layanan -> layanan.id_layanan }
         }
 
+        countHargaTotal()
         Log.d(SELECT_LAYANAN,"isi list layanan dipilih :  "+listLayananDipilih.toString())
+    }
+
+    fun countHargaTotal(){
+        var total = 0
+        val nf = NumberFormat.getNumberInstance(Locale.GERMAN)
+        val df = nf as DecimalFormat
+
+        for (i in 0  until listLayananDipilih.size){
+            total = total + listLayananDipilih.get(i).harga_layanan
+        }
+        tvTotal.setText("Total : Rp. "+df.format(total))
     }
 
     override fun onResume() {
