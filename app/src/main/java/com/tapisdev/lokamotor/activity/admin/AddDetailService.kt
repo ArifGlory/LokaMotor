@@ -38,7 +38,7 @@ class AddDetailService : BaseActivity() {
 
     fun updateUI(){
         tvNamaUser.setText(antrian.nama_user)
-        tvJenisLayanan.setText(antrian.jenis_layanan)
+      //  tvJenisLayanan.setText(antrian.jenis_layanan)
         tvNomorAntrian.setText("Nomor Antrian - "+antrian.nomor_antrian)
     }
 
@@ -51,14 +51,14 @@ class AddDetailService : BaseActivity() {
         }else if (getDeksirpsi.equals("") || getDeksirpsi.length == 0){
             showErrorMessage("Komentar/Dekskripsi Belum diisi")
         }else{
-            riwayatService = RiwayatService("",
+           /* riwayatService = RiwayatService("",
                 antrian.id_antrian,
                 antrian.id_user,
                 antrian.nama_user,
                 antrian.foto_user,
                 antrian.jenis_layanan,
                 getHarga,
-                 getDeksirpsi)
+                 getDeksirpsi)*/
 
             saveRiwayat()
         }

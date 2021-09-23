@@ -60,14 +60,12 @@ class AdapterAntrian(private val list:ArrayList<Antrian>) : RecyclerView.Adapter
         pDialogLoading.setCancelable(false)
 
         holder.view.tvNamaUser.text = list?.get(position)?.nama_user
-        holder.view.tvJenisLayanan.text =list?.get(position)?.jenis_layanan
         holder.view.tvNomorAntrian.text = ""+list?.get(position)?.nomor_antrian
 
         if (list?.get(position)?.status.equals("aktif")){
             holder.view.rlBackground.setBackgroundColor(ContextCompat.getColor(holder.view.lineAntrian.context, R.color.light_blue_500))
 
             holder.view.tvNamaUser.setTextColor(ContextCompat.getColor(holder.view.lineAntrian.context,R.color.white))
-            holder.view.tvJenisLayanan.setTextColor(ContextCompat.getColor(holder.view.lineAntrian.context,R.color.white))
             holder.view.tvNomorAntrian.setTextColor(ContextCompat.getColor(holder.view.lineAntrian.context,R.color.white))
         }
 
