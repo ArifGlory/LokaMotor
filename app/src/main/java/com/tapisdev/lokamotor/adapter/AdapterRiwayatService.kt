@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.opengl.GLDebugHelper
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import android.view.Window
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
@@ -38,6 +40,8 @@ import java.io.Serializable
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -54,6 +58,7 @@ class AdapterRiwayatService(private val list:ArrayList<Antrian>) : RecyclerView.
     val antrianRef = myDB.collection("antrian")
     lateinit var pDialogLoading : SweetAlertDialog
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: Holder, position: Int) {
         mUserPref = UserPreference(holder.view.lineRiwayat.context)
 
@@ -64,8 +69,14 @@ class AdapterRiwayatService(private val list:ArrayList<Antrian>) : RecyclerView.
         pDialogLoading.setTitleText("Loading..")
         pDialogLoading.setCancelable(false)
 
+        val firstApiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val date = LocalDate.parse(list?.get(position)?.tanggal , firstApiFormat)
 
-        holder.view.tvTanggal.text = list?.get(position)?.tanggal
+      //  Log.d("parseTesting", date.dayOfWeek.toString()) // prints Wednesday
+       // Log.d("parseTesting", date.month.toString()) // prints August
+
+        //holder.view.tvTanggal.text = list?.get(position)?.tanggal
+        holder.view.tvTanggal.text = ""+date.dayOfMonth+"-"+date.month.toString()+"-"+date.year.toString()
         holder.view.tvNamaUser.text = list?.get(position)?.nama_user
         holder.view.tvTotalBayar.text = "Rp. "+df.format(list?.get(position)?.totalBayar)
 
