@@ -30,11 +30,11 @@ class HomePenggunaActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_pengguna)
         mUserPref = UserPreference(this)
-        adapter = AdapterRiwayatService(listRiwayat)
+       /* adapter = AdapterRiwayatService(listRiwayat)
         rvRiwayat.setHasFixedSize(true)
         rvRiwayat.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
         rvRiwayat.adapter = adapter
-
+*/
         lineProfil.setOnClickListener {
             startActivity(Intent(this, ProfilActivity::class.java))
             overridePendingTransition(R.anim.slide_in_right, R.anim.stay)
@@ -48,7 +48,7 @@ class HomePenggunaActivity : BaseActivity() {
             overridePendingTransition(R.anim.slide_in_right, R.anim.stay)
         }
 
-        getDataRiwayat()
+       // getDataRiwayat()
     }
 
     fun getDataRiwayat(){

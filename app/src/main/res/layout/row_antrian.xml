@@ -31,12 +31,12 @@
                 android:padding="10dp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/ivFotoUser"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    app:riv_oval="true"
                     android:scaleType="centerCrop"
-                    android:id="@+id/ivFotoUser"
-                    android:src="@drawable/ic_placeholder"/>
+                    android:src="@drawable/ic_placeholder"
+                    app:riv_oval="true" />
 
                 <LinearLayout
                     android:layout_toRightOf="@+id/ivFotoUser"

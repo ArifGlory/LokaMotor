@@ -34,12 +34,13 @@
                 <LinearLayout
                     android:layout_centerVertical="true"
                     android:id="@+id/lineNama"
+                    android:layout_toLeftOf="@+id/ivFotoUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvJenisLayanan"
+                        android:id="@+id/tvTanggal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -48,20 +49,21 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textStyle="bold"
-                        android:text="Jenis Layanan"
+                        android:text="Tanggal antrian"
                         android:textColor="@color/black2"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/tvHarga"
+                        android:id="@+id/tvNamaUser"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:ellipsize="end"
-                        android:text="harga"
+                        android:text="nama"
+                        android:textStyle="italic"
                         android:textColor="@color/black2"
-                        android:textSize="14sp" />
+                        android:textSize="15sp" />
 
 
                     <TextView
@@ -69,28 +71,27 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="15dp"
                         android:ellipsize="end"
                         android:textStyle="bold"
-                        android:text="Komentar Teknisi / Deskripsi Service"
+                        android:text="harga total"
+                        android:id="@+id/tvTotalBayar"
                         android:textColor="@color/black2"
-                        android:textSize="11sp" />
-
-                    <TextView
-                        android:id="@+id/tvDeskripsi"
-                        android:textStyle="italic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:ellipsize="end"
-                        android:text="deskripsi"
-                        android:textColor="@color/black2"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
 
 
                 </LinearLayout>
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/ivFotoUser"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_placeholder"
+                    app:riv_oval="true" />
 
 
 

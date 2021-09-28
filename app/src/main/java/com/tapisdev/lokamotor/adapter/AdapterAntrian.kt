@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tapisdev.lokamotor.R
 import com.tapisdev.lokamotor.activity.AntrianActivity
+import com.tapisdev.lokamotor.activity.RiwayatServiceActivity
 import com.tapisdev.lokamotor.activity.SplashActivity
 import com.tapisdev.lokamotor.activity.admin.DetailServiceActivity
 import com.tapisdev.lokamotor.model.Antrian
@@ -84,6 +85,7 @@ class AdapterAntrian(private val list:ArrayList<Antrian>) : RecyclerView.Adapter
             if (mUserPref.getJenisUser().equals("admin")){
                 val i = Intent(holder.view.lineAntrian.context, DetailServiceActivity::class.java)
                 i.putExtra("antrian",list.get(position) as Serializable)
+                i.putExtra("position",position)
                 holder.view.lineAntrian.context.startActivity(i)
             }
 

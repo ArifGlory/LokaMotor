@@ -30,7 +30,10 @@ import com.tapisdev.lokamotor.model.RiwayatService
 import com.tapisdev.lokamotor.model.UserPreference
 import com.tapisdev.mysteam.model.UserModel
 import es.dmoral.toasty.Toasty
+import kotlinx.android.synthetic.main.row_antrian.view.*
 import kotlinx.android.synthetic.main.row_riwayat.view.*
+import kotlinx.android.synthetic.main.row_riwayat.view.ivFotoUser
+import kotlinx.android.synthetic.main.row_riwayat.view.tvNamaUser
 import java.io.Serializable
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -38,7 +41,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AdapterRiwayatService(private val list:ArrayList<RiwayatService>) : RecyclerView.Adapter<AdapterRiwayatService.Holder>(){
+class AdapterRiwayatService(private val list:ArrayList<Antrian>) : RecyclerView.Adapter<AdapterRiwayatService.Holder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.row_riwayat,parent,false))
@@ -56,16 +59,27 @@ class AdapterRiwayatService(private val list:ArrayList<RiwayatService>) : Recycl
 
         val nf = NumberFormat.getNumberInstance(Locale.GERMAN)
         val df = nf as DecimalFormat
-        pDialogLoading = SweetAlertDialog(holder.view.tvJenisLayanan.context, SweetAlertDialog.PROGRESS_TYPE)
+        pDialogLoading = SweetAlertDialog(holder.view.tvTanggal.context, SweetAlertDialog.PROGRESS_TYPE)
         pDialogLoading.progressHelper.barColor = Color.parseColor("#A5DC86")
         pDialogLoading.setTitleText("Loading..")
         pDialogLoading.setCancelable(false)
 
-        var harga = list?.get(position).harga.toInt()
 
-        holder.view.tvJenisLayanan.text = list?.get(position)?.jenis_layanan
-        holder.view.tvDeskripsi.text = list?.get(position)?.deskripsi
-        holder.view.tvHarga.text = "Rp. "+df.format(harga)
+        holder.view.tvTanggal.text = list?.get(position)?.tanggal
+        holder.view.tvNamaUser.text = list?.get(position)?.nama_user
+        holder.view.tvTotalBayar.text = "Rp. "+df.format(list?.get(position)?.totalBayar)
+
+        if (list?.get(position)?.foto_user.equals("")){
+            holder.view.ivFotoUser.setImageResource(R.drawable.ic_placeholder)
+        }else {
+            Glide.with(holder.view.ivFotoUser.context)
+                .load(list?.get(position)?.foto_user)
+                .into(holder.view.ivFotoUser)
+        }
+
+        holder.view.lineRiwayat.setOnClickListener {
+
+        }
 
 
     }

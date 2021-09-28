@@ -5,18 +5,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.tapisdev.lokamotor.R
+import com.tapisdev.lokamotor.activity.AntrianActivity
 import com.tapisdev.lokamotor.adapter.AdapterLayanan
 import com.tapisdev.lokamotor.base.BaseActivity
 import com.tapisdev.lokamotor.model.Antrian
 import com.tapisdev.lokamotor.model.Layanan
 import com.tapisdev.lokamotor.model.RiwayatService
 import com.tapisdev.lokamotor.model.UserPreference
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_add_detail_service.*
 import kotlinx.android.synthetic.main.activity_add_detail_service.rvLayanan
 import kotlinx.android.synthetic.main.activity_list_service.*
+import kotlinx.android.synthetic.main.row_antrian.view.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -39,6 +44,7 @@ class DetailServiceActivity : BaseActivity() {
     val currentDate = sdf.format(Date())
     val nf = NumberFormat.getNumberInstance(Locale.GERMAN)
     val df = nf as DecimalFormat
+    var position : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,17 +57,71 @@ class DetailServiceActivity : BaseActivity() {
 
         i = intent
         antrian = i.getSerializableExtra("antrian") as Antrian
+        position = i.getIntExtra("position",0)
 
         ivBack.setOnClickListener {
             onBackPressed()
         }
         btnToggleAntrian.setOnClickListener {
-            if (antrian.status.equals("aktif")){
+            if (antrian.status.equals("waiting")){
+                //antrian dapat digunakan
                 if (antrian.tanggal.equals(currentDate.toString())){
+                    if (position != 0){
+                        Toasty.error(this, "Antrian ini tidak berada pada posisi pertama", Toast.LENGTH_SHORT, true).show()
+                    }else{
+                        if (antrian.status.equals("waiting")){
+                            SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("Aktifkan antrian ini ?")
+                                .setContentText("Antrian akan dimulai")
+                                .setConfirmText("Ya")
+                                .setConfirmClickListener { sDialog ->
+                                    sDialog.dismissWithAnimation()
+                                    pDialogLoading.show()
 
+                                    antrianRef.document(antrian.id_antrian).update("status","aktif").addOnCompleteListener { task ->
+                                        pDialogLoading.dismiss()
+                                        if (task.isSuccessful){
+                                            Toasty.success(this, "Antrian Aktif", Toast.LENGTH_SHORT, true).show()
+                                            onBackPressed()
+                                        }else{
+                                            Toasty.error(this, "terjadi kesalahan : "+task.exception, Toast.LENGTH_SHORT, true).show()
+                                            Log.d("aktivasiAntrian","err : "+task.exception)
+                                        }
+                                    }
+
+                                }
+                                .setCancelButton(
+                                    "Tidak"
+                                ) { sDialog -> sDialog.dismissWithAnimation() }
+                                .show()
+                        }
+                    }
                 }
-            }else{
+            }else if (antrian.status.equals("aktif")){
+                SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Selesaikan antrian ini ?")
+                    .setContentText("Antrian akan diselesaikan")
+                    .setConfirmText("Ya")
+                    .setConfirmClickListener { sDialog ->
+                        sDialog.dismissWithAnimation()
+                        pDialogLoading.show()
 
+                        antrianRef.document(antrian.id_antrian).update("status","selesai").addOnCompleteListener { task ->
+                            pDialogLoading.dismiss()
+                            if (task.isSuccessful){
+                                Toasty.success(this, "Antrian Selesai", Toast.LENGTH_SHORT, true).show()
+                                onBackPressed()
+                            }else{
+                                Toasty.error(this, "terjadi kesalahan : "+task.exception, Toast.LENGTH_SHORT, true).show()
+                                Log.d("aktivasiAntrian","err : "+task.exception)
+                            }
+                        }
+
+                    }
+                    .setCancelButton(
+                        "Tidak"
+                    ) { sDialog -> sDialog.dismissWithAnimation() }
+                    .show()
             }
         }
 
@@ -89,12 +149,21 @@ class DetailServiceActivity : BaseActivity() {
                 tvNomorAntrian.setText("Nomor Antrian - "+antrian.nomor_antrian)
             }
 
-        }else{
+        }else if (antrian.status.equals("waiting")){
             tvNamaUser.setText(antrian.nama_user)
             textInputDeskripsi.visibility = View.GONE
             edHarga.setText("Rp. "+df.format(antrian.totalBayar))
             tvNomorAntrian.setText("Nomor Antrian - "+antrian.nomor_antrian)
             btnToggleAntrian.setText("Aktifkan Antrian")
+        }else{
+            btnToggleAntrian.setText("Antrian ini sudah selesai")
+            btnToggleAntrian.isEnabled = false
+
+            tvNamaUser.setText(antrian.nama_user)
+            textInputDeskripsi.visibility = View.GONE
+            edHarga.setText("Rp. "+df.format(antrian.totalBayar))
+            edHarga.isEnabled = false
+            tvNomorAntrian.setText("Nomor Antrian - "+antrian.nomor_antrian)
         }
 
     }
