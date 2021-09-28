@@ -158,6 +158,7 @@ class DetailServiceActivity : BaseActivity() {
         }else{
             btnToggleAntrian.setText("Antrian ini sudah selesai")
             btnToggleAntrian.isEnabled = false
+            btnToggleAntrian.visibility = View.GONE
 
             tvNamaUser.setText(antrian.nama_user)
             textInputDeskripsi.visibility = View.GONE
@@ -167,6 +168,7 @@ class DetailServiceActivity : BaseActivity() {
         }
 
     }
+
 
     fun checkValidation(){
         var getHarga = edHarga.text.toString()

@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.tapisdev.lokamotor.R
 import com.tapisdev.lokamotor.activity.AntrianActivity
 import com.tapisdev.lokamotor.activity.SplashActivity
+import com.tapisdev.lokamotor.activity.admin.DetailServiceActivity
 import com.tapisdev.lokamotor.model.Antrian
 import com.tapisdev.lokamotor.model.RiwayatService
 import com.tapisdev.lokamotor.model.UserPreference
@@ -89,7 +90,10 @@ class AdapterRiwayatService(private val list:ArrayList<Antrian>) : RecyclerView.
         }
 
         holder.view.lineRiwayat.setOnClickListener {
-
+            val i = Intent(holder.view.lineRiwayat.context, DetailServiceActivity::class.java)
+            i.putExtra("antrian",list.get(position) as Serializable)
+            i.putExtra("position",position)
+            holder.view.lineRiwayat.context.startActivity(i)
         }
 
 

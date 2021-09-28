@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tapisdev.lokamotor.R
+import com.tapisdev.lokamotor.activity.admin.DetailServiceActivity
 import com.tapisdev.lokamotor.activity.admin.ListServiceActivity
 import com.tapisdev.lokamotor.model.Layanan
 import com.tapisdev.lokamotor.model.UserPreference
@@ -67,6 +68,12 @@ class AdapterLayanan(private val list:ArrayList<Layanan>) : RecyclerView.Adapter
         holder.view.tvHargaLayanan.text = "Rp. "+df.format(list?.get(position)?.harga_layanan)
         if (mUserPref.getJenisUser().equals("admin")){
             holder.view.cbLayanan.visibility = View.INVISIBLE
+        }
+        if (holder.view.lineLayanan.context is DetailServiceActivity){
+            if ((holder.view.lineLayanan.context as DetailServiceActivity).antrian.status.equals("selesai")){
+                holder.view.cbLayanan.isEnabled = false
+                holder.view.cbLayanan.visibility = View.GONE
+            }
         }
 
         holder.view.lineLayanan.setOnLongClickListener {
