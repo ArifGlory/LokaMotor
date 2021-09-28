@@ -71,36 +71,39 @@ class AdapterLayanan(private val list:ArrayList<Layanan>) : RecyclerView.Adapter
 
         holder.view.lineLayanan.setOnLongClickListener {
 
-            if (mUserPref.getJenisUser().equals("admin")){
-                SweetAlertDialog(holder.view.lineLayanan.context, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Anda yakin menghapus ini ?")
-                    .setContentText("Data yang sudah dihapus tidak bisa dikembalikan")
-                    .setConfirmText("Ya")
-                    .setConfirmClickListener { sDialog ->
-                        sDialog.dismissWithAnimation()
-                        pDialogLoading.show()
-                        layananRef.document(list?.get(position)?.id_layanan).update("active",0).addOnSuccessListener {
-                            pDialogLoading.dismiss()
-                            Toasty.success(holder.view.lineLayanan.context, "Data berhasil dihapus", Toast.LENGTH_LONG, true).show()
+            if (holder.view.lineLayanan.context is ListServiceActivity){
+                if (mUserPref.getJenisUser().equals("admin")){
+                    SweetAlertDialog(holder.view.lineLayanan.context, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Anda yakin menghapus ini ?")
+                        .setContentText("Data yang sudah dihapus tidak bisa dikembalikan")
+                        .setConfirmText("Ya")
+                        .setConfirmClickListener { sDialog ->
+                            sDialog.dismissWithAnimation()
+                            pDialogLoading.show()
+                            layananRef.document(list?.get(position)?.id_layanan).update("active",0).addOnSuccessListener {
+                                pDialogLoading.dismiss()
+                                Toasty.success(holder.view.lineLayanan.context, "Data berhasil dihapus", Toast.LENGTH_LONG, true).show()
 
-                            if (holder.view.lineLayanan.context is ListServiceActivity){
-                                (holder.view.lineLayanan.context as ListServiceActivity).getDataLayanan()
+                                if (holder.view.lineLayanan.context is ListServiceActivity){
+                                    (holder.view.lineLayanan.context as ListServiceActivity).getDataLayanan()
+                                }
+
+                                Log.d("deleteDoc", "DocumentSnapshot successfully deleted!")
+                            }.addOnFailureListener {
+                                    e ->
+                                pDialogLoading.dismiss()
+                                Toasty.error(holder.view.lineLayanan.context, "terjadi kesalahan "+e, Toast.LENGTH_LONG, true).show()
+                                Log.w("deleteDoc", "Error deleting document", e)
                             }
 
-                            Log.d("deleteDoc", "DocumentSnapshot successfully deleted!")
-                        }.addOnFailureListener {
-                                e ->
-                            pDialogLoading.dismiss()
-                            Toasty.error(holder.view.lineLayanan.context, "terjadi kesalahan "+e, Toast.LENGTH_LONG, true).show()
-                            Log.w("deleteDoc", "Error deleting document", e)
                         }
-
-                    }
-                    .setCancelButton(
-                        "Tidak"
-                    ) { sDialog -> sDialog.dismissWithAnimation() }
-                    .show()
+                        .setCancelButton(
+                            "Tidak"
+                        ) { sDialog -> sDialog.dismissWithAnimation() }
+                        .show()
+                }
             }
+
 
             return@setOnLongClickListener true
         }

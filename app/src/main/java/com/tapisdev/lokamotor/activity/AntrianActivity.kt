@@ -1,21 +1,16 @@
 package com.tapisdev.lokamotor.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.firebase.firestore.Query
-import com.tapisdev.lokamotor.MainActivity
 import com.tapisdev.lokamotor.R
-import com.tapisdev.lokamotor.activity.admin.AddDetailService
+import com.tapisdev.lokamotor.activity.admin.DetailServiceActivity
 import com.tapisdev.lokamotor.activity.admin.ListServiceActivity
-import com.tapisdev.lokamotor.activity.pengguna.MendaftarAntrianActivity
 import com.tapisdev.lokamotor.adapter.AdapterAntrian
 import com.tapisdev.lokamotor.base.BaseActivity
 import com.tapisdev.lokamotor.model.Antrian
@@ -62,7 +57,7 @@ class AntrianActivity : BaseActivity() {
                         .setConfirmClickListener { sDialog ->
                             sDialog.dismissWithAnimation()
 
-                            val i = Intent(this,AddDetailService::class.java)
+                            val i = Intent(this,DetailServiceActivity::class.java)
                             i.putExtra("antrian",listAntrianAktif.get(0) as Serializable)
                             startActivity(i)
 

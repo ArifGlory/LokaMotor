@@ -18,9 +18,12 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
-            android:name=".activity.admin.ListServiceActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".activity.admin.DetailAntrianActivity"
             android:exported="true" />
+        <activity
+            android:name=".activity.admin.ListServiceActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.admin.AddServiceActivity"
             android:exported="true"
@@ -29,7 +32,7 @@
             android:name=".activity.RiwayatServiceActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.admin.AddDetailService"
+            android:name=".activity.admin.DetailServiceActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.admin.HomeAdminActivity"
