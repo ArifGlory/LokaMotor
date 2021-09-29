@@ -71,7 +71,8 @@ class ListServiceActivity : BaseActivity() {
                     currentDate.toString(),
                     "waiting",
                     0,
-                    totalBayar
+                    totalBayar,
+                    ""
                 )
                 saveAntrian(antrian)
             }
@@ -238,6 +239,7 @@ class ListServiceActivity : BaseActivity() {
     fun countHargaTotal(){
         val nf = NumberFormat.getNumberInstance(Locale.GERMAN)
         val df = nf as DecimalFormat
+        totalBayar = 0
 
         for (i in 0  until listLayananDipilih.size){
             totalBayar = totalBayar + listLayananDipilih.get(i).harga_layanan

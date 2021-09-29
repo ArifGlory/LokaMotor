@@ -104,18 +104,7 @@ class DetailServiceActivity : BaseActivity() {
                     .setConfirmText("Ya")
                     .setConfirmClickListener { sDialog ->
                         sDialog.dismissWithAnimation()
-                        pDialogLoading.show()
-
-                        antrianRef.document(antrian.id_antrian).update("status","selesai").addOnCompleteListener { task ->
-                            pDialogLoading.dismiss()
-                            if (task.isSuccessful){
-                                Toasty.success(this, "Antrian Selesai", Toast.LENGTH_SHORT, true).show()
-                                onBackPressed()
-                            }else{
-                                Toasty.error(this, "terjadi kesalahan : "+task.exception, Toast.LENGTH_SHORT, true).show()
-                                Log.d("aktivasiAntrian","err : "+task.exception)
-                            }
-                        }
+                        checkValidation()
 
                     }
                     .setCancelButton(
@@ -134,8 +123,9 @@ class DetailServiceActivity : BaseActivity() {
         if (antrian.status.equals("aktif")){
             if (antrian.tanggal.equals(currentDate.toString())){
                 tvNamaUser.setText(antrian.nama_user)
-                textInputDeskripsi.visibility = View.GONE
-                edHarga.setText("Rp. "+df.format(antrian.totalBayar))
+                textInputDeskripsi.visibility = View.VISIBLE
+                edHarga.setText(""+antrian.totalBayar)
+                edHarga.isEnabled = true
                 tvNomorAntrian.setText("Nomor Antrian - "+antrian.nomor_antrian)
                 btnToggleAntrian.setText("Selesaikan Antrian")
             }else{
@@ -161,7 +151,10 @@ class DetailServiceActivity : BaseActivity() {
             btnToggleAntrian.visibility = View.GONE
 
             tvNamaUser.setText(antrian.nama_user)
-            textInputDeskripsi.visibility = View.GONE
+            textInputDeskripsi.visibility = View.VISIBLE
+            edDeskripsi.isEnabled = false
+            edDeskripsi.setText(antrian.deskripsi)
+
             edHarga.setText("Rp. "+df.format(antrian.totalBayar))
             edHarga.isEnabled = false
             tvNomorAntrian.setText("Nomor Antrian - "+antrian.nomor_antrian)
@@ -179,40 +172,24 @@ class DetailServiceActivity : BaseActivity() {
         }else if (getDeksirpsi.equals("") || getDeksirpsi.length == 0){
             showErrorMessage("Komentar/Dekskripsi Belum diisi")
         }else{
-           /* riwayatService = RiwayatService("",
-                antrian.id_antrian,
-                antrian.id_user,
-                antrian.nama_user,
-                antrian.foto_user,
-                antrian.jenis_layanan,
-                getHarga,
-                 getDeksirpsi)*/
-
-            saveRiwayat()
+            updateDataAntrian(getHarga,getDeksirpsi)
         }
     }
 
-    fun saveRiwayat(){
-        showLoading(this)
+    fun updateDataAntrian(harga : String,deskripsi : String){
+        pDialogLoading.show()
+        var hrg = harga.toInt()
 
-        riwayatRef.document().set(riwayatService).addOnCompleteListener {
-                task ->
+        antrianRef.document(antrian.id_antrian).update("totalBayar",hrg)
+        antrianRef.document(antrian.id_antrian).update("deskripsi",deskripsi)
+        antrianRef.document(antrian.id_antrian).update("status","selesai").addOnCompleteListener { task ->
+            pDialogLoading.dismiss()
             if (task.isSuccessful){
-                antrianRef.document(antrian.id_antrian).update("status","selesai").addOnCompleteListener { task ->
-                    dismissLoading()
-                    if (task.isSuccessful){
-                        showLongSuccessMessage("Simpan Riwayat Service Berhasil")
-                        onBackPressed()
-                    }else{
-                        showLongErrorMessage("terjadi kesalahan : "+task.exception)
-                        Log.d("aktivasiAntrian","err : "+task.exception)
-                    }
-                }
-
+                Toasty.success(this, "Antrian Selesai", Toast.LENGTH_SHORT, true).show()
+                onBackPressed()
             }else{
-                dismissLoading()
-                showLongErrorMessage("Error, coba lagi nanti ")
-                Log.d(TAG_SIMPAN,"err : "+task.exception)
+                Toasty.error(this, "terjadi kesalahan : "+task.exception, Toast.LENGTH_SHORT, true).show()
+                Log.d("aktivasiAntrian","err : "+task.exception)
             }
         }
     }

@@ -14,5 +14,6 @@ data class Antrian(
     var tanggal : String = "",
     var status : String = "",
     var nomor_antrian : Int = 0,
-    var totalBayar : Int = 0
+    var totalBayar : Int = 0,
+    var deskripsi : String = ""
 ) : Parcelable,java.io.Serializable
